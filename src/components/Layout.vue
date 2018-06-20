@@ -35,37 +35,76 @@
   vertical-align: middle;
   font-size: 22px;
 }
+
+.my-layout-header {
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 0 30px;
+  overflow: hidden;
+}
+
+.user-trigger {
+  float: right;
+}
+
+.r-link {
+  color: inherit;
+}
 </style>
 <template>
     <div class="layout">
         <Layout>
             <Sider breakpoint="md" collapsible :collapsed-width="78" v-model="isCollapsed">
-                <Menu active-name="1-2" theme="dark" width="auto" :class="menuitemClasses">
-                    <MenuItem name="1-1">
-                        <Icon type="ios-navigate"></Icon>
-                        <span>Option 1</span>
+                <Menu active-name="1-1" theme="dark" width="auto" :class="menuitemClasses">
+                    <router-link class="r-link" to="/index/">
+                        <MenuItem @click.native="collapseItem" name="1-1">
+                            <Icon type="ios-navigate"></Icon>
+                            <span>数据总览</span>
+                        </MenuItem>
+                    </router-link>
+                    <router-link class="r-link" to="/index/users">
+                    <MenuItem @click.native="collapseItem" name="1-2">
+                        <Icon type="ios-people"></Icon>
+                        <span>用户浏览</span>
                     </MenuItem>
-                    <MenuItem name="1-2">
-                        <Icon type="search"></Icon>
-                        <span>Option 2</span>
+                    </router-link>
+                    <router-link class="r-link" to="/index/payinfo">
+                    <MenuItem @click.native="collapseItem" name="1-3">
+                        <Icon type="card"></Icon>
+                        <span>支付设置</span>
                     </MenuItem>
-                    <MenuItem name="1-3">
+                    </router-link>
+                    <router-link class="r-link" to="/index/setting">
+                    <MenuItem @click.native="collapseItem" name="1-4">
                         <Icon type="settings"></Icon>
-                        <span>Option 3</span>
+                        <span>设置</span>
                     </MenuItem>
+                    </router-link>
+                    <router-link class="r-link" to="/index/mine">
+                    <MenuItem @click.native="collapseItem" name="1-5">
+                        <Icon type="person"></Icon>
+                        <span>个人中心</span>
+                    </MenuItem>
+                    </router-link>
                 </Menu>
                 <div slot="trigger"></div>
             </Sider>
             <Layout>
-                <Header class="layout-header-bar"></Header>
-                <Content :style="{margin: '20px', background: '#fff', minHeight: '220px'}">
-                    Content
+                <Header class="layout-header-bar my-layout-header">
+                    嘻游娱乐公众号管理后台
+                    <div class="user-trigger">
+                        <user-avatar></user-avatar>
+                    </div>
+                </Header>
+                <Content :style="{margin: '20px', background: '#fff', minHeight: '720px'}">
+                    <slot></slot>
                 </Content>
             </Layout>
         </Layout>
     </div>
 </template>
 <script>
+import UserAvatar from "@/components/UserAvatar";
 export default {
   data() {
     return {
@@ -76,6 +115,14 @@ export default {
     menuitemClasses: function() {
       return ["menu-item", this.isCollapsed ? "collapsed-menu" : ""];
     }
+  },
+  components: { UserAvatar },
+  methods:{
+      collapseItem(){
+          if (window.innerWidth < 500) {
+            this.isCollapsed = true
+          } 
+      }
   }
 };
 </script>

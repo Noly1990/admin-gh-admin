@@ -1,19 +1,19 @@
 <template>
-    <Layout></Layout>
+    <Layout>
+      <router-view/>
+    </Layout>
 </template>
 
 <script>
-import Layout from '../components/Layout'
+import Layout from "@/components/Layout";
 export default {
-    data(){
-        return {
-            
-        }
-    }
-}
+  data() {
+    return {};
+  },
+  components: { Layout }
+};
 </script>
 
 <style scoped>
-
 </style>
 

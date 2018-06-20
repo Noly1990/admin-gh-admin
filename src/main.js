@@ -9,31 +9,31 @@ import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import Vuex from 'vuex'
 import store from './store'
+import F2 from '@antv/f2'
+ 
 
 Vue.config.productionTip = false
 
 //router导航守卫
 
-// router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => {
   
-//   if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
-//     let token=window.sessionStorage.getItem('token')||store.state.token;
-//       if (token) {  // 通过vuex state获取当前的token是否存在
-//           next();
-//       }
-//       else {
-//           next({
-//               path: '/',
-//             //   query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
-//           })
-//       }
-//   }
-//   else {
-//       next();
-//   }
-// })
-
-
+  if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
+    let token=window.sessionStorage.getItem('token') || store.state.token;
+      if (token) {  // 通过vuex state获取当前的token是否存在
+          next();
+      }
+      else {
+          next({
+              path: '/',
+              query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
+          })
+      }
+  }
+  else {
+      next();
+  }
+})
 
 // http request 拦截器
 axios.interceptors.request.use(
@@ -68,7 +68,9 @@ axios.interceptors.response.use(
       }
       return Promise.reject(error.response.data)   // 返回接口返回的错误信息
   });
+  
 
+axios.defaults.baseURL = 'http://long.lxxiyou.cn'
 
 Vue.use(Vuex)
 
@@ -76,6 +78,7 @@ Vue.use(VueAxios, axios)
 
 Vue.use(iView)
 
+Vue.prototype.F2 = F2
 
 /* eslint-disable no-new */
 new Vue({
